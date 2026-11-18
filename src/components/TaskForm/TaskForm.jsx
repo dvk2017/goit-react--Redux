@@ -1,11 +1,24 @@
-import { Button } from '../Button/Button';
-import css from './TaskForm.module.css';
+import { useDispatch } from "react-redux";
+import { addTask } from "../../redux/tasksSlice";
+import { Button } from "../Button/Button";
+import css from "./TaskForm.module.css";
 
 export const TaskForm = () => {
+  const dispatch = useDispatch();
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.target;
-    form.reset();
+    const text = form.elements.text.value;
+    if (text.trim()) {
+      dispatch(
+        addTask({
+          id: crypto.randomUUID(),
+          completed: false,
+          text: text.trim(),
+        }),
+      );
+      form.reset();
+    }
   };
 
   return (
